@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arkan Mahmoudi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f9f6;
+    --bg2: #eef2ec;
+    --text: #1e2820;
+    --text-soft: #4a5c4e;
+    --text-faint: #7a8f7e;
+    --accent: #3a6b45;
+    --accent-light: #c8ddc9;
+    --accent-warm: #e8f0e4;
+    --border: #d4e0d5;
+    --card: #ffffff;
+    --shadow: rgba(40,70,45,0.08);
+  }
+  [data-theme="dark"] {
+    --bg: #111814;
+    --bg2: #182018;
+    --text: #e8f0e4;
+    --text-soft: #a8c0aa;
+    --text-faint: #688a6c;
+    --accent: #6aad78;
+    --accent-light: #2a4a30;
+    --accent-warm: #1a2a1c;
+    --border: #2a3e2c;
+    --card: #1a2a1c;
+    --shadow: rgba(0,0,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.4s;
+  }
+  nav.scrolled { border-color: var(--border); }
+  .nav-name {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--text-soft);
+    max-width: 480px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+  .hero-scroll {
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.7s forwards;
+  }
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--text-faint);
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 40px; }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent-light);
+  }
+
+  /* PHOTO + INTRO */
+  .intro-section { background: var(--bg2); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .photo-placeholder {
+    aspect-ratio: 3/4;
+    background: var(--accent-warm);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .photo-placeholder svg {
+    opacity: 0.3;
+    width: 48px;
+    height: 48px;
+  }
+  .intro-text h2 {
+    font-family: 'Lora', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 28px;
+    color: var(--text);
+  }
+  .intro-text p {
+    color: var(--text-soft);
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 0; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
+  .timeline-year {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding-top: 4px;
+    text-align: right;
+  }
+  .timeline-content {
+    border-left: 1px solid var(--border);
+    padding-left: 32px;
+    position: relative;
+  }
+  .timeline-content::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .timeline-content h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .timeline-content p {
+    color: var(--text-soft);
+    font-size: 0.92rem;
+  }
+
+  /* INTERESTS */
+  .interests-section { background: var(--bg2); }
+  .interests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .interest-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 24px;
+    transition: border-color 0.3s, transform 0.3s;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+  }
+  .interest-card.visible { opacity: 1; transform: translateY(0); }
+  .interest-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .interest-icon {
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .interest-card h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .interest-card p {
+    font-size: 0.82rem;
+    color: var(--text-faint);
+    line-height: 1.6;
+  }
+
+  /* VALUES */
+  .values-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .value-item {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .value-item.visible { opacity: 1; transform: translateX(0); }
+  .value-number {
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    min-width: 28px;
+  }
+  .value-text {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .value-arrow {
+    margin-left: auto;
+    color: var(--accent-light);
+    font-size: 1rem;
+  }
+
+  /* QUOTE */
+  .quote-section {
+    background: var(--accent);
+    padding: 100px 40px;
+  }
+  .quote-section .container {
+    text-align: center;
+  }
+  blockquote {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 400;
+    font-style: italic;
+    color: #ffffff;
+    line-height: 1.5;
+    max-width: 680px;
+    margin: 0 auto;
+    opacity: 0.95;
+  }
+  blockquote::before {
+    content: '\201C';
+    display: block;
+    font-size: 4rem;
+    line-height: 0.8;
+    margin-bottom: 24px;
+    opacity: 0.4;
+  }
+
+  /* ABOUT DEEP */
+  .about-deep h2 {
+    font-family: 'Lora', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 32px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .about-deep p {
+    color: var(--text-soft);
+    margin-bottom: 20px;
+    font-size: 1rem;
+    max-width: 620px;
+  }
+
+  /* CONTACT */
+  .contact-section { background: var(--bg2); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .contact-text h2 {
+    font-family: 'Lora', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .contact-text p {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+  .contact-link-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent-warm);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .contact-link-text { font-size: 0.9rem; }
+  .contact-link-label {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 16px; }
+    .nav-links li:not(:last-child) { display: none; }
+    section { padding: 70px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+    .photo-placeholder { aspect-ratio: 1/1; max-width: 200px; }
+    .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+    .timeline-item { grid-template-columns: 70px 1fr; gap: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <span class="nav-name">Arkan Mahmoudi</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#interests">Interests</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><button class="theme-toggle" onclick="toggleTheme()">◐ Dark</button></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">A person, not a profile</p>
+  <h1>Arkan<br><em>Mahmoudi</em></h1>
+  <p class="hero-sub">Psychology, education, curiosity, learning and personal growth.</p>
+  <div class="hero-scroll">
+    <span class="scroll-line"></span>
+    scroll to explore
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="intro-section" id="about">
+  <div class="container">
+    <p class="section-label">Who I am</p>
+    <div class="intro-grid">
+      <div class="photo-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span>Your photo here</span>
+      </div>
+      <div class="intro-text">
+        <h2>Who am I beyond labels?</h2>
+        <p>I am Arkan Mahmoudi, a person whose life has been shaped by curiosity, persistence and the desire to understand people more deeply.</p>
+        <p>I studied psychology because understanding human beings was never just an academic subject for me. I have always been interested in emotions, mental struggles, relationships, personality and the invisible things that influence human life. Psychology for me is not only a field of study — it is also a way of seeing people with more patience and understanding.</p>
+        <p>I currently work in educational counseling and I care about helping people, especially in educational and personal contexts. I believe that guidance is not about giving ready-made answers; sometimes it is simply helping people see themselves more clearly.</p>
+        <p>I do not see myself as a collection of titles. I am simply someone trying to build a meaningful life while continuing to learn, understand and improve.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="container">
+    <p class="section-label">My journey</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">Early</div>
+        <div class="timeline-content">
+          <h3>A curious beginning</h3>
+          <p>Grew up with a deep curiosity about people — why they feel what they feel, why they do what they do. This curiosity became the compass for everything that followed.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">University</div>
+        <div class="timeline-content">
+          <h3>Studying psychology</h3>
+          <p>Chose psychology not as a career strategy but as a genuine need to understand human experience more deeply. The study of mind and behavior felt like learning a language I had always half-spoken.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Now</div>
+        <div class="timeline-content">
+          <h3>Educational counseling</h3>
+          <p>Working as an educational counselor — sitting with people in their uncertainty, helping them see their own path a little more clearly. This work taught me that listening is a skill most people underestimate.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Ongoing</div>
+        <div class="timeline-content">
+          <h3>Learning technology</h3>
+          <p>Entered the world of web development with curiosity. HTML, CSS, JavaScript, and now further. I enjoy the process of building things — taking an idea and turning it into something real and visible.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section class="interests-section" id="interests">
+  <div class="container">
+    <p class="section-label">What I care about</p>
+    <div class="interests-grid">
+      <div class="interest-card">
+        <span class="interest-icon">🧠</span>
+        <h3>Psychology & Psychotherapy</h3>
+        <p>The interior life of people — how it forms, how it breaks, how it heals.</p>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">🌱</span>
+        <h3>Personal Growth</h3>
+        <p>Not as self-optimization — but as a quiet, ongoing process of becoming more honest with yourself.</p>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">📚</span>
+        <h3>Educational Counseling</h3>
+        <p>Helping people navigate uncertainty, especially in formative years when direction matters most.</p>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">💻</span>
+        <h3>Technology & Web</h3>
+        <p>Building things from nothing. The creative satisfaction of code that works.</p>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">🔍</span>
+        <h3>Human Behavior</h3>
+        <p>The gap between what people say and what they mean. What drives people beneath the surface.</p>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">💬</span>
+        <h3>Honest Conversations</h3>
+        <p>The kind that don't happen at parties. The ones that make you think differently afterward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section>
+  <div class="container">
+    <p class="section-label">What I believe in</p>
+    <div class="values-list">
+      <div class="value-item">
+        <span class="value-number">01</span>
+        <span class="value-text">Growth over perfection</span>
+        <span class="value-arrow">→</span>
+      </div>
+      <div class="value-item">
+        <span class="value-number">02</span>
+        <span class="value-text">Curiosity over certainty</span>
+        <span class="value-arrow">→</span>
+      </div>
+      <div class="value-item">
+        <span class="value-number">03</span>
+        <span class="value-text">Understanding over judgment</span>
+        <span class="value-arrow">→</span>
+      </div>
+      <div class="value-item">
+        <span class="value-number">04</span>
+        <span class="value-text">Persistence over quick success</span>
+        <span class="value-arrow">→</span>
+      </div>
+      <div class="value-item">
+        <span class="value-number">05</span>
+        <span class="value-text">Meaning over appearance</span>
+        <span class="value-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="container">
+    <blockquote>
+      I believe growth is usually quiet. Many important changes happen long before they become visible.
+    </blockquote>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <p class="section-label">Get in touch</p>
+    <div class="contact-inner">
+      <div class="contact-text">
+        <h2>I appreciate honest conversations.</h2>
+        <p>If something here resonated with you, or if you simply want to connect — I am glad to hear from you. No formality needed.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="contact-link">
+          <div class="contact-link-icon">✉</div>
+          <div class="contact-link-text">
+            <span class="contact-link-label">Email</span>
+            arkan.mah2020@email.com
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="contact-link-icon">in</div>
+          <div class="contact-link-text">
+            <span class="contact-link-label">LinkedIn</span>
+            Arkan Mahmoudi
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="contact-link-icon">📍</div>
+          <div class="contact-link-text">
+            <span class="contact-link-label">Location</span>
+            Iran
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Arkan Mahmoudi &nbsp;·&nbsp; Designed with intention &nbsp;·&nbsp; 2025</p>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Dark mode
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.querySelector('.theme-toggle').textContent = isDark ? '◐ Dark' : '○ Light';
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.timeline-item, .interest-card, .value-item').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
