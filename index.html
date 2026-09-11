@@ -57,7 +57,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     font-family: 'Inter', sans-serif;
@@ -66,6 +66,7 @@
     font-size: 16px;
     line-height: 1.7;
     transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
   }
 
   a { color: inherit; }
@@ -141,6 +142,8 @@
   .hero-title {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    row-gap: 10px;
     gap: clamp(14px, 2.4vw, 26px);
     margin-bottom: 26px;
   }
@@ -151,6 +154,8 @@
     line-height: 1.1;
     letter-spacing: -0.01em;
     color: var(--ink);
+    min-width: 0;
+    max-width: 100%;
   }
   .heart-mark {
     width: clamp(58px, 8.4vw, 96px);
@@ -161,9 +166,6 @@
   .heart-mark .heart-stem { fill: none; stroke: var(--clay); stroke-width: 1.6; stroke-linecap: round; }
   .heart-mark .heart-leaf { fill: var(--clay); opacity: 0.92; }
   .heart-mark .heart-bud { fill: var(--clay); }
-  @media (max-width: 700px) {
-    .hero-title { gap: 12px; }
-  }
   .hero-sub {
     font-size: 1.1rem;
     color: var(--ink-soft);
@@ -433,14 +435,27 @@
 
   @media (max-width: 700px) {
     nav { padding: 14px 20px; }
-    .nav-links { gap: 14px; }
+    .nav-name { font-size: 0.95rem; }
+    .nav-links { gap: 12px; }
     .nav-links li:not(:last-child) { display: none; }
+    .theme-toggle { padding: 5px 11px; font-size: 0.75rem; }
     section { padding: 64px 20px; }
-    .hero { padding: 110px 20px 50px; }
+    .hero { padding: 96px 20px 44px; }
+    .hero-kicker { font-size: 0.95rem; margin-bottom: 16px; }
+    .hero-title { gap: 12px; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(1.9rem, 9.5vw, 2.6rem); }
+    .heart-mark { width: 46px; height: 46px; }
+    .hero-sub { font-size: 1rem; }
+    .hero-scroll { margin-top: 56px; }
     .intro-grid { grid-template-columns: 1fr; gap: 36px; }
     .intro-grid img { max-width: 220px; }
     .contact-inner { grid-template-columns: 1fr; gap: 36px; }
     .timeline-item { grid-template-columns: 64px 1fr; gap: 18px; }
+  }
+
+  @media (max-width: 400px) {
+    nav { padding: 12px 16px; }
+    .nav-name { font-size: 0.85rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
